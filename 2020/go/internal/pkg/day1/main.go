@@ -44,44 +44,35 @@ func ReadInput(r io.Reader) ([]int, error) {
 	return result, nil
 }
 
-func FindTwoSummandsOf(sum int, data []int) (int, int, error) {
+func FindSummandsOf(sum int, data []int, amount uint) ([]int, error) {
 	if data == nil {
-		return 0, 0, ErrNilInputData
+		return nil, ErrNilInputData
 	}
 
 	if len(data) == 0 {
-		return 0, 0, ErrNoResultFound
+		return nil, ErrNoResultFound
 	}
 
-	for i, iv := range data {
-		for _, jv := range data[i:] {
-			if iv+jv == sum {
-				return iv, jv, nil
-			}
-		}
-	}
-
-	return 0, 0, ErrNoResultFound
+	return findSummandsOf(sum, data, amount, 0, nil)
 }
 
-func FindThreeSummandsOf(sum int, data []int) (int, int, int, error) {
-	if data == nil {
-		return 0, 0, 0, ErrNilInputData
-	}
-
-	if len(data) == 0 {
-		return 0, 0, 0, ErrNoResultFound
-	}
-
-	for _, iv := range data {
-		for _, jv := range data {
-			for _, kv := range data {
-				if iv+jv+kv == sum {
-					return iv, jv, kv, nil
-				}
-			}
+func findSummandsOf(sum int, data []int, level uint, accSum int, accData []int) ([]int, error) {
+	if level <= 0 {
+		if accSum == sum {
+			return accData, nil
 		}
+
+		return nil, ErrNoResultFound
 	}
 
-	return 0, 0, 0, ErrNoResultFound
+	for _, v := range data {
+		result, err := findSummandsOf(sum, data, level-1, accSum+v, append(accData, v))
+		if err != nil {
+			continue
+		}
+
+		return result, nil
+	}
+
+	return nil, ErrNoResultFound
 }

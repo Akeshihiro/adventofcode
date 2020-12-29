@@ -17,17 +17,17 @@ func main() {
 		log.Fatal(err)
 	}
 
-	s1, s2, err := day1.FindTwoSummandsOf(2020, data)
+	result, err := day1.FindSummandsOf(2020, data, 2)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Printf("s1 * s2 = %v", s1*s2)
+	log.Printf("s1 * s2 = %v", result[0]*result[1])
 
-	s1, s2, s3, err := day1.FindThreeSummandsOf(2020, data)
+	result, err = day1.FindSummandsOf(2020, data, 3)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Printf("s1 * s2 * s3 = %v", s1*s2*s3)
+	log.Printf("s1 * s2 * s3 = %v", result[0]*result[1]*result[2])
 }

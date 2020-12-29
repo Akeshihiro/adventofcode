@@ -2,6 +2,7 @@ package day1_test
 
 import (
 	"adventofcode2020/internal/pkg/day1"
+	"reflect"
 	"strings"
 	"testing"
 )
@@ -69,21 +70,21 @@ func TestReadInput_WhenInputHasEmptyLines_ThenIgnoreEmptyLines(t *testing.T) {
 	}
 }
 
-func TestFindTwoSummandOf_WhenDataIsNil_ThenThrowAnError(t *testing.T) {
-	_, _, err := day1.FindTwoSummandsOf(0, nil)
+func TestFindSummandOf_WhenDataIsNil_ThenThrowAnError(t *testing.T) {
+	_, err := day1.FindSummandsOf(0, nil, 0)
 	if err != day1.ErrNilInputData {
 		t.Errorf("err != ErrNilInputData")
 	}
 }
 
-func TestFindTwoSummandOf_WhenDataIsEmpty_ThenThrowAnError(t *testing.T) {
-	_, _, err := day1.FindTwoSummandsOf(0, []int{})
+func TestFindSummandOf_WhenDataIsEmpty_ThenThrowAnError(t *testing.T) {
+	_, err := day1.FindSummandsOf(0, []int{}, 0)
 	if err != day1.ErrNoResultFound {
 		t.Errorf("err != ErrNoResultFound")
 	}
 }
 
-func TestFindTwoSummandOf_Return1721And299(t *testing.T) {
+func TestFindSummandOf_WhenAmountOfSummandsShouldBe2_ThenReturn1721And299(t *testing.T) {
 	data := []int{
 		1721,
 		979,
@@ -92,30 +93,18 @@ func TestFindTwoSummandOf_Return1721And299(t *testing.T) {
 		675,
 		1456,
 	}
-	s1, s2, err := day1.FindTwoSummandsOf(2020, data)
+	result, err := day1.FindSummandsOf(2020, data, 2)
 	if err != nil {
 		t.Errorf("err != nil")
 	}
-	if s1 != 1721 || s2 != 299 {
-		t.Errorf("s1 != 1721 || s2 != 299, s1=%v, s2=%v", s1, s2)
+
+	expected := []int{1721, 299}
+	if !reflect.DeepEqual(result, expected) {
+		t.Errorf("expected %v, got %v", expected, result)
 	}
 }
 
-func TestFindThreeSummandOf_WhenDataIsNil_ThenThrowAnError(t *testing.T) {
-	_, _, _, err := day1.FindThreeSummandsOf(0, nil)
-	if err != day1.ErrNilInputData {
-		t.Errorf("err != ErrNilInputData")
-	}
-}
-
-func TestFindThreeSummandOf_WhenDataIsEmpty_ThenThrowAnError(t *testing.T) {
-	_, _, _, err := day1.FindThreeSummandsOf(0, []int{})
-	if err != day1.ErrNoResultFound {
-		t.Errorf("err != ErrNoResultFound")
-	}
-}
-
-func TestFindThreeSummandOf_Return1721And299(t *testing.T) {
+func TestFindSummandOf_WhenAmountOfSummandsShouldBe3_ThenReturn979And366And675(t *testing.T) {
 	data := []int{
 		1721,
 		979,
@@ -124,11 +113,13 @@ func TestFindThreeSummandOf_Return1721And299(t *testing.T) {
 		675,
 		1456,
 	}
-	s1, s2, s3, err := day1.FindThreeSummandsOf(2020, data)
+	result, err := day1.FindSummandsOf(2020, data, 3)
 	if err != nil {
 		t.Errorf("err != nil")
 	}
-	if s1 != 979 || s2 != 366 || s3 != 675 {
-		t.Errorf("s1 != 979 || s2 != 366 || s3 != 675, s1=%v, s2=%v, s3=%v", s1, s2, s3)
+
+	expected := []int{979, 366, 675}
+	if !reflect.DeepEqual(result, expected) {
+		t.Errorf("expected %v, got %v", expected, result)
 	}
 }
