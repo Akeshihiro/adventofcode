@@ -7,26 +7,20 @@ import (
 	"testing"
 )
 
-func TestReadInput_WhenInputReaderIsNil_ThenReturnAnError(t *testing.T) {
+func TestReadInput_WhenInputReaderIsNil_ThenReturnErrNilInputData(t *testing.T) {
 	_, err := day1.ReadInput(nil)
-	if err == nil {
-		t.Fatalf("err == nil")
+	if err != day1.ErrNilInputData {
+		t.Fatalf("expected %v, got %v", day1.ErrNilInputData, err)
 	}
 }
 
 func TestReadInput_WhenInputIsEmpty_ThenReturnAnEmptyResult(t *testing.T) {
 	reader := strings.NewReader("")
-	data, err := day1.ReadInput(reader)
-	if err != nil {
-		t.Fatalf("err != nil, %v", err)
-	}
+	result, _ := day1.ReadInput(reader)
+	expected := []int{}
 
-	if data == nil {
-		t.Fatalf("data == nil")
-	}
-
-	if len(data) > 0 {
-		t.Fatalf("len(data) > 0, %v", len(data))
+	if !reflect.DeepEqual(expected, result) {
+		t.Fatalf("expected %v, got %v", expected, result)
 	}
 }
 
@@ -34,18 +28,11 @@ func TestReadInput_WhenInputIsNotEmpty_ThenReturnASliceWithData(t *testing.T) {
 	reader := strings.NewReader(`1
 2
 3`)
-	data, err := day1.ReadInput(reader)
-	if err != nil {
-		t.Fatalf("err != nil, %v", err)
-	}
+	result, _ := day1.ReadInput(reader)
+	expected := []int{1, 2, 3}
 
-	if data == nil {
-		t.Fatalf("data == nil")
-	}
-
-	l := len(data)
-	if l != 3 {
-		t.Fatalf("len(data) != 3, %v", l)
+	if !reflect.DeepEqual(expected, result) {
+		t.Fatalf("expected %v, got %v", expected, result)
 	}
 }
 
@@ -55,32 +42,25 @@ func TestReadInput_WhenInputHasEmptyLines_ThenIgnoreEmptyLines(t *testing.T) {
 
 3
 `)
-	data, err := day1.ReadInput(reader)
-	if err != nil {
-		t.Fatalf("err != nil, %v", err)
-	}
+	result, _ := day1.ReadInput(reader)
+	expected := []int{1, 2, 3}
 
-	if data == nil {
-		t.Fatalf("data == nil")
-	}
-
-	l := len(data)
-	if l != 3 {
-		t.Fatalf("len(data) != 3, %v", l)
+	if !reflect.DeepEqual(expected, result) {
+		t.Fatalf("expected %v, got %v", expected, result)
 	}
 }
 
-func TestFindSummandOf_WhenDataIsNil_ThenThrowAnError(t *testing.T) {
+func TestFindSummandOf_WhenDataIsNil_ThenReturnErrNilInputData(t *testing.T) {
 	_, err := day1.FindSummandsOf(0, nil, 0)
 	if err != day1.ErrNilInputData {
-		t.Fatalf("err != ErrNilInputData")
+		t.Fatalf("expected %v, got %v", day1.ErrNilInputData, err)
 	}
 }
 
-func TestFindSummandOf_WhenDataIsEmpty_ThenThrowAnError(t *testing.T) {
+func TestFindSummandOf_WhenDataIsEmpty_ThenReturnErrNoResultFound(t *testing.T) {
 	_, err := day1.FindSummandsOf(0, []int{}, 0)
 	if err != day1.ErrNoResultFound {
-		t.Fatalf("err != ErrNoResultFound")
+		t.Fatalf("expected %v, got %v", day1.ErrNoResultFound, err)
 	}
 }
 
@@ -93,12 +73,9 @@ func TestFindSummandOf_WhenAmountOfSummandsShouldBe2_ThenReturn1721And299(t *tes
 		675,
 		1456,
 	}
-	result, err := day1.FindSummandsOf(2020, data, 2)
-	if err != nil {
-		t.Fatalf("err != nil")
-	}
-
+	result, _ := day1.FindSummandsOf(2020, data, 2)
 	expected := []int{1721, 299}
+
 	if !reflect.DeepEqual(result, expected) {
 		t.Fatalf("expected %v, got %v", expected, result)
 	}
@@ -113,12 +90,9 @@ func TestFindSummandOf_WhenAmountOfSummandsShouldBe3_ThenReturn979And366And675(t
 		675,
 		1456,
 	}
-	result, err := day1.FindSummandsOf(2020, data, 3)
-	if err != nil {
-		t.Fatalf("err != nil")
-	}
-
+	result, _ := day1.FindSummandsOf(2020, data, 3)
 	expected := []int{979, 366, 675}
+
 	if !reflect.DeepEqual(result, expected) {
 		t.Fatalf("expected %v, got %v", expected, result)
 	}
