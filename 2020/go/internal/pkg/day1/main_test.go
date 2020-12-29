@@ -10,7 +10,7 @@ import (
 func TestReadInput_WhenInputReaderIsNil_ThenReturnAnError(t *testing.T) {
 	_, err := day1.ReadInput(nil)
 	if err == nil {
-		t.Errorf("err == nil")
+		t.Fatalf("err == nil")
 	}
 }
 
@@ -18,15 +18,15 @@ func TestReadInput_WhenInputIsEmpty_ThenReturnAnEmptyResult(t *testing.T) {
 	reader := strings.NewReader("")
 	data, err := day1.ReadInput(reader)
 	if err != nil {
-		t.Errorf("err != nil, %v", err)
+		t.Fatalf("err != nil, %v", err)
 	}
 
 	if data == nil {
-		t.Errorf("data == nil")
+		t.Fatalf("data == nil")
 	}
 
 	if len(data) > 0 {
-		t.Errorf("len(data) > 0, %v", len(data))
+		t.Fatalf("len(data) > 0, %v", len(data))
 	}
 }
 
@@ -36,16 +36,16 @@ func TestReadInput_WhenInputIsNotEmpty_ThenReturnASliceWithData(t *testing.T) {
 3`)
 	data, err := day1.ReadInput(reader)
 	if err != nil {
-		t.Errorf("err != nil, %v", err)
+		t.Fatalf("err != nil, %v", err)
 	}
 
 	if data == nil {
-		t.Errorf("data == nil")
+		t.Fatalf("data == nil")
 	}
 
 	l := len(data)
 	if l != 3 {
-		t.Errorf("len(data) != 3, %v", l)
+		t.Fatalf("len(data) != 3, %v", l)
 	}
 }
 
@@ -57,30 +57,30 @@ func TestReadInput_WhenInputHasEmptyLines_ThenIgnoreEmptyLines(t *testing.T) {
 `)
 	data, err := day1.ReadInput(reader)
 	if err != nil {
-		t.Errorf("err != nil, %v", err)
+		t.Fatalf("err != nil, %v", err)
 	}
 
 	if data == nil {
-		t.Errorf("data == nil")
+		t.Fatalf("data == nil")
 	}
 
 	l := len(data)
 	if l != 3 {
-		t.Errorf("len(data) != 3, %v", l)
+		t.Fatalf("len(data) != 3, %v", l)
 	}
 }
 
 func TestFindSummandOf_WhenDataIsNil_ThenThrowAnError(t *testing.T) {
 	_, err := day1.FindSummandsOf(0, nil, 0)
 	if err != day1.ErrNilInputData {
-		t.Errorf("err != ErrNilInputData")
+		t.Fatalf("err != ErrNilInputData")
 	}
 }
 
 func TestFindSummandOf_WhenDataIsEmpty_ThenThrowAnError(t *testing.T) {
 	_, err := day1.FindSummandsOf(0, []int{}, 0)
 	if err != day1.ErrNoResultFound {
-		t.Errorf("err != ErrNoResultFound")
+		t.Fatalf("err != ErrNoResultFound")
 	}
 }
 
@@ -95,12 +95,12 @@ func TestFindSummandOf_WhenAmountOfSummandsShouldBe2_ThenReturn1721And299(t *tes
 	}
 	result, err := day1.FindSummandsOf(2020, data, 2)
 	if err != nil {
-		t.Errorf("err != nil")
+		t.Fatalf("err != nil")
 	}
 
 	expected := []int{1721, 299}
 	if !reflect.DeepEqual(result, expected) {
-		t.Errorf("expected %v, got %v", expected, result)
+		t.Fatalf("expected %v, got %v", expected, result)
 	}
 }
 
@@ -115,11 +115,11 @@ func TestFindSummandOf_WhenAmountOfSummandsShouldBe3_ThenReturn979And366And675(t
 	}
 	result, err := day1.FindSummandsOf(2020, data, 3)
 	if err != nil {
-		t.Errorf("err != nil")
+		t.Fatalf("err != nil")
 	}
 
 	expected := []int{979, 366, 675}
 	if !reflect.DeepEqual(result, expected) {
-		t.Errorf("expected %v, got %v", expected, result)
+		t.Fatalf("expected %v, got %v", expected, result)
 	}
 }
