@@ -44,7 +44,7 @@ func ReadInput(r io.Reader) ([]int, error) {
 	return result, nil
 }
 
-func FindSummandsOf(sum int, data []int) (int, int, error) {
+func FindTwoSummandsOf(sum int, data []int) (int, int, error) {
 	if data == nil {
 		return 0, 0, ErrNilInputData
 	}
@@ -62,4 +62,26 @@ func FindSummandsOf(sum int, data []int) (int, int, error) {
 	}
 
 	return 0, 0, ErrNoResultFound
+}
+
+func FindThreeSummandsOf(sum int, data []int) (int, int, int, error) {
+	if data == nil {
+		return 0, 0, 0, ErrNilInputData
+	}
+
+	if len(data) == 0 {
+		return 0, 0, 0, ErrNoResultFound
+	}
+
+	for _, iv := range data {
+		for _, jv := range data {
+			for _, kv := range data {
+				if iv+jv+kv == sum {
+					return iv, jv, kv, nil
+				}
+			}
+		}
+	}
+
+	return 0, 0, 0, ErrNoResultFound
 }

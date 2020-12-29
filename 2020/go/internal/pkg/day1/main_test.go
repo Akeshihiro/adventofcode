@@ -69,21 +69,21 @@ func TestReadInput_WhenInputHasEmptyLines_ThenIgnoreEmptyLines(t *testing.T) {
 	}
 }
 
-func TestFindSummandOf_WhenDataIsNil_ThenThrowAnError(t *testing.T) {
-	_, _, err := day1.FindSummandsOf(0, nil)
+func TestFindTwoSummandOf_WhenDataIsNil_ThenThrowAnError(t *testing.T) {
+	_, _, err := day1.FindTwoSummandsOf(0, nil)
 	if err != day1.ErrNilInputData {
 		t.Errorf("err != ErrNilInputData")
 	}
 }
 
-func TestFindSummandOf_WhenDataIsEmpty_ThenThrowAnError(t *testing.T) {
-	_, _, err := day1.FindSummandsOf(0, []int{})
+func TestFindTwoSummandOf_WhenDataIsEmpty_ThenThrowAnError(t *testing.T) {
+	_, _, err := day1.FindTwoSummandsOf(0, []int{})
 	if err != day1.ErrNoResultFound {
 		t.Errorf("err != ErrNoResultFound")
 	}
 }
 
-func TestFindSummandOf_Return1721And299(t *testing.T) {
+func TestFindTwoSummandOf_Return1721And299(t *testing.T) {
 	data := []int{
 		1721,
 		979,
@@ -92,11 +92,43 @@ func TestFindSummandOf_Return1721And299(t *testing.T) {
 		675,
 		1456,
 	}
-	s1, s2, err := day1.FindSummandsOf(2020, data)
+	s1, s2, err := day1.FindTwoSummandsOf(2020, data)
 	if err != nil {
 		t.Errorf("err != nil")
 	}
-	if s1 != 1721 && s2 != 299 {
-		t.Errorf("s1 != 1721 or s2 != 299, s1=%v, s2=%v", s1, s2)
+	if s1 != 1721 || s2 != 299 {
+		t.Errorf("s1 != 1721 || s2 != 299, s1=%v, s2=%v", s1, s2)
+	}
+}
+
+func TestFindThreeSummandOf_WhenDataIsNil_ThenThrowAnError(t *testing.T) {
+	_, _, _, err := day1.FindThreeSummandsOf(0, nil)
+	if err != day1.ErrNilInputData {
+		t.Errorf("err != ErrNilInputData")
+	}
+}
+
+func TestFindThreeSummandOf_WhenDataIsEmpty_ThenThrowAnError(t *testing.T) {
+	_, _, _, err := day1.FindThreeSummandsOf(0, []int{})
+	if err != day1.ErrNoResultFound {
+		t.Errorf("err != ErrNoResultFound")
+	}
+}
+
+func TestFindThreeSummandOf_Return1721And299(t *testing.T) {
+	data := []int{
+		1721,
+		979,
+		366,
+		299,
+		675,
+		1456,
+	}
+	s1, s2, s3, err := day1.FindThreeSummandsOf(2020, data)
+	if err != nil {
+		t.Errorf("err != nil")
+	}
+	if s1 != 979 || s2 != 366 || s3 != 675 {
+		t.Errorf("s1 != 979 || s2 != 366 || s3 != 675, s1=%v, s2=%v, s3=%v", s1, s2, s3)
 	}
 }
