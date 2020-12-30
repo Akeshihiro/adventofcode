@@ -126,8 +126,9 @@ func ValidatePasswordsByTobogganPolicies(passwords []PasswordWithPolicy) (int, i
 	for _, p := range passwords {
 		a := string(p.Password[p.Min-1])
 		b := string(p.Password[p.Max-1])
+		s := a + b
 
-		if (a == p.Sequence && b != p.Sequence) || (a != p.Sequence && b == p.Sequence) {
+		if strings.Count(s, p.Sequence) == 1 {
 			valid++
 		} else {
 			invalid++
