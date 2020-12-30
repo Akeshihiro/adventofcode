@@ -11,6 +11,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	valid, invalid := day2.ValidatePasswords(data)
+	// valid, invalid := day2.ValidatePasswords(data)
+	valid, invalid := day2.ValidatePasswordsByTobogganPolicies(data)
 	log.Printf("valid = %v, invalid = %v", valid, invalid)
 }

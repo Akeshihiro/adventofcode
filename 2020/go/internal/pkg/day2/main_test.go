@@ -37,3 +37,17 @@ func TestValidatePasswords_WhenInputHas2ValidAnd1InvalidPasswords_ThenReturnVali
 		t.Fatalf("expected valid=%v invalid=%v, got valid=%v invalid=%v", expectedValid, expectedInvalid, valid, invalid)
 	}
 }
+
+func TestValidatePasswordsByTobogganPolicies_WhenInputHas1ValidAnd2InvalidPasswords_ThenReturnValidEquals1AndInvalidEquals2(t *testing.T) {
+	input := []day2.PasswordWithPolicy{
+		{Password: "abcde", Sequence: "a", Min: 1, Max: 3},
+		{Password: "cdefg", Sequence: "b", Min: 1, Max: 3},
+		{Password: "ccccccccc", Sequence: "c", Min: 2, Max: 9},
+	}
+	valid, invalid := day2.ValidatePasswordsByTobogganPolicies(input)
+	expectedValid, expectedInvalid := 1, 2
+
+	if expectedValid != valid || expectedInvalid != invalid {
+		t.Fatalf("expected valid=%v invalid=%v, got valid=%v invalid=%v", expectedValid, expectedInvalid, valid, invalid)
+	}
+}

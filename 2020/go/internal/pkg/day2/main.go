@@ -118,3 +118,21 @@ func ValidatePasswords(passwords []PasswordWithPolicy) (int, int) {
 
 	return valid, invalid
 }
+
+func ValidatePasswordsByTobogganPolicies(passwords []PasswordWithPolicy) (int, int) {
+	valid := 0
+	invalid := 0
+
+	for _, p := range passwords {
+		a := string(p.Password[p.Min-1])
+		b := string(p.Password[p.Max-1])
+
+		if (a == p.Sequence && b != p.Sequence) || (a != p.Sequence && b == p.Sequence) {
+			valid++
+		} else {
+			invalid++
+		}
+	}
+
+	return valid, invalid
+}
