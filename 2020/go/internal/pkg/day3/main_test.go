@@ -39,7 +39,7 @@ func TestReadInput(t *testing.T) {
 	}
 }
 
-func TestCountTreesByMoving(t *testing.T) {
+func TestCountTreesByMoving_WhenTheSlopeIsRight3Down1_ThenReturn7(t *testing.T) {
 	input := [][]rune{
 		{'.', '.', '#', '#', '.', '.', '.', '.', '.', '.', '.'},
 		{'#', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.'},
@@ -54,9 +54,37 @@ func TestCountTreesByMoving(t *testing.T) {
 		{'.', '#', '.', '.', '#', '.', '.', '.', '#', '.', '#'},
 	}
 	expected := 7
-	result := day3.CountTreesByMoving(input, 3, 1)
+	result, _ := day3.CountTreesByMoving(input, 3, 1)
 
-	if result != expected {
+	if result[0] != expected {
+		t.Fatalf("expected %v, got %v", expected, result)
+	}
+}
+
+func TestCountTreesByMoving_WhenTestedAllSlopes_ThenReturn336(t *testing.T) {
+	input := [][]rune{
+		{'.', '.', '#', '#', '.', '.', '.', '.', '.', '.', '.'},
+		{'#', '.', '.', '.', '#', '.', '.', '.', '#', '.', '.'},
+		{'.', '#', '.', '.', '.', '.', '#', '.', '.', '#', '.'},
+		{'.', '.', '#', '.', '#', '.', '.', '.', '#', '.', '#'},
+		{'.', '#', '.', '.', '.', '#', '#', '.', '.', '#', '.'},
+		{'.', '.', '#', '.', '#', '#', '.', '.', '.', '.', '.'},
+		{'.', '#', '.', '#', '.', '#', '.', '.', '.', '.', '#'},
+		{'.', '#', '.', '.', '.', '.', '.', '.', '.', '.', '#'},
+		{'#', '.', '#', '#', '.', '.', '.', '#', '.', '.', '.'},
+		{'#', '.', '.', '.', '#', '#', '.', '.', '.', '.', '#'},
+		{'.', '#', '.', '.', '#', '.', '.', '.', '#', '.', '#'},
+	}
+	expected := []int{2, 7, 3, 4, 2}
+	result, _ := day3.CountTreesByMoving(input,
+		1, 1,
+		3, 1,
+		5, 1,
+		7, 1,
+		1, 2,
+	)
+
+	if !reflect.DeepEqual(result, expected) {
 		t.Fatalf("expected %v, got %v", expected, result)
 	}
 }

@@ -45,8 +45,14 @@ func ReadInput(r io.Reader) ([][]rune, error) {
 	return result, nil
 }
 
-func CountTreesByMoving(matrix [][]rune, x, y int) int {
-	counter := 0
+func CountTreesByMoving(matrix [][]rune, moves ...int) ([]int, error) {
+	l := len(moves)
+	if l%2 != 0 {
+		return nil, errors.New("too few or too much movement arguments; must be an even length of movement arguments as they are x:y pairs")
+	}
+
+	pairs := l / 2
+	counters := []int{}
 
 	rows := len(matrix)
 	cols := 0
@@ -54,11 +60,17 @@ func CountTreesByMoving(matrix [][]rune, x, y int) int {
 		cols = len(matrix[0])
 	}
 
-	for r, c := 0, 0; r < rows; r, c = r+y, (c+x)%cols {
-		if matrix[r][c] == '#' {
-			counter++
+	for i := 0; i < pairs; i++ {
+		x := moves[i*2]
+		y := moves[i*2+1]
+		counters = append(counters, 0)
+
+		for r, c := 0, 0; r < rows; r, c = r+y, (c+x)%cols {
+			if matrix[r][c] == '#' {
+				counters[i]++
+			}
 		}
 	}
 
-	return counter
+	return counters, nil
 }
