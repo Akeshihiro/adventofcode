@@ -5,6 +5,8 @@ import (
 	"errors"
 	"io"
 	"os"
+	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -101,11 +103,11 @@ func ReadInput(r io.Reader) ([]Passport, error) {
 	return result, nil
 }
 
-func CountValidPassports(passports []Passport) int {
+func CountValidPassportsBySimpleValidation(passports []Passport) int {
 	counter := 0
 
 	for _, p := range passports {
-		if isPassportValid(p) {
+		if isPassportValidBySimpleValidation(p) {
 			counter++
 		}
 	}
@@ -113,7 +115,7 @@ func CountValidPassports(passports []Passport) int {
 	return counter
 }
 
-func isPassportValid(p Passport) bool {
+func isPassportValidBySimpleValidation(p Passport) bool {
 	return !(len(p.BirthYearh) == 0 ||
 		len(p.IssueYear) == 0 ||
 		len(p.ExpirationYear) == 0 ||
@@ -121,4 +123,105 @@ func isPassportValid(p Passport) bool {
 		len(p.EyeColor) == 0 ||
 		len(p.Height) == 0 ||
 		len(p.PassportID) == 0)
+}
+
+func CountValidPassportsByStrictValidation(passports []Passport) int {
+	counter := 0
+
+	for _, p := range passports {
+		if isPassportValidByStrictValidation(p) {
+			counter++
+		}
+	}
+
+	return counter
+}
+
+func isPassportValidByStrictValidation(p Passport) bool {
+	return isBirthYearValid(p.BirthYearh) &&
+		isIssueYearValid(p.IssueYear) &&
+		isExpirationYearValid(p.ExpirationYear) &&
+		isHairColorValid(p.HairColor) &&
+		isEyeColorValid(p.EyeColor) &&
+		isHeightValid(p.Height) &&
+		isPassportIDValid(p.PassportID)
+}
+
+func isBirthYearValid(s string) bool {
+	year, err := strconv.Atoi(s)
+	if err != nil {
+		return false
+	}
+
+	return year >= 1920 && year <= 2002
+}
+
+func isIssueYearValid(s string) bool {
+	year, err := strconv.Atoi(s)
+	if err != nil {
+		return false
+	}
+
+	return year >= 2010 && year <= 2020
+}
+
+func isExpirationYearValid(s string) bool {
+	year, err := strconv.Atoi(s)
+	if err != nil {
+		return false
+	}
+
+	return year >= 2020 && year <= 2030
+}
+
+func isHairColorValid(s string) bool {
+	s = strings.ToLower(s)
+	pattern := regexp.MustCompile("^#[a-f0-9]{6}$")
+
+	return pattern.MatchString(s)
+}
+
+func isEyeColorValid(s string) bool {
+	s = strings.ToLower(s)
+	pattern := regexp.MustCompile("^(amb|blu|brn|gry|grn|hzl|oth)$")
+
+	return pattern.MatchString(s)
+}
+
+func isHeightValid(s string) bool {
+	s = strings.ToLower(s)
+	pattern := regexp.MustCompile("^([0-9]{2,3})(cm|in)$")
+
+	if !pattern.MatchString(s) {
+		return false
+	}
+
+	matches := pattern.FindStringSubmatch(s)
+	if len(matches) != 3 {
+		return false
+	}
+
+	height, err := strconv.Atoi(matches[1])
+	if err != nil {
+		return false
+	}
+
+	switch matches[2] {
+	case "cm":
+		if height < 150 || height > 193 {
+			return false
+		}
+	case "in":
+		if height < 59 || height > 76 {
+			return false
+		}
+	}
+
+	return true
+}
+
+func isPassportIDValid(s string) bool {
+	pattern := regexp.MustCompile("^[0-9]{9}$")
+
+	return pattern.MatchString(strings.ToLower(s))
 }

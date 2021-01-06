@@ -11,7 +11,11 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	count := day4.CountValidPassports(data)
+	count := day4.CountValidPassportsBySimpleValidation(data)
 
-	log.Printf("valid passports: %v\n", count)
+	log.Printf("valid passports (simple validation): %v\n", count)
+
+	count = day4.CountValidPassportsByStrictValidation(data)
+
+	log.Printf("valid passports (strict validation): %v\n", count)
 }
