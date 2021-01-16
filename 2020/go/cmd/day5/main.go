@@ -11,7 +11,8 @@ func main() {
 		log.Panic(err)
 	}
 
-	highestSeatID := 0
+	seatIDs := []int{}
+	highestSeatID := -1
 	for _, v := range seatnums {
 		row, err := day5.DecodeRow(v)
 		if err != nil {
@@ -29,7 +30,13 @@ func main() {
 		if seatID > highestSeatID {
 			highestSeatID = seatID
 		}
+
+		seatIDs = append(seatIDs, seatID)
 	}
 
 	log.Println(highestSeatID)
+
+	// Part 2
+	missingSeats := day5.FindMissingSeats(seatIDs)
+	log.Print(missingSeats)
 }

@@ -8,6 +8,7 @@ import (
 	"math"
 	"os"
 	"regexp"
+	"sort"
 	"strings"
 	"unicode"
 )
@@ -102,4 +103,31 @@ func DecodeCol(seatcode string) (int, error) {
 	}
 
 	return start, nil
+}
+
+func FindMissingSeats(seats []int) []int {
+	if len(seats) == 0 {
+		return nil
+	}
+
+	// We need a sorted slice but the original slice must stay untouched!
+	ids := make([]int, len(seats))
+	copy(ids, seats)
+	sort.Ints(ids)
+
+	result := []int{}
+	lastCheckedSeatID := ids[0]
+	for i := 1; i < len(ids); i++ {
+		id := ids[i]
+
+		if lastCheckedSeatID+1 != id {
+			for j := lastCheckedSeatID + 1; j < id; j++ {
+				result = append(result, j)
+			}
+		}
+
+		lastCheckedSeatID = id
+	}
+
+	return result
 }
