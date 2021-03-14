@@ -3,7 +3,6 @@ package day2
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"strconv"
@@ -28,7 +27,7 @@ func ReadInputFile(file string) ([]PasswordWithPolicy, error) {
 }
 
 func ReadInput(r io.Reader) ([]PasswordWithPolicy, error) {
-	b, err := ioutil.ReadAll(r)
+	b, err := io.ReadAll(r)
 	if err != nil {
 		return nil, err
 	}

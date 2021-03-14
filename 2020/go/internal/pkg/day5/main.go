@@ -3,7 +3,6 @@ package day5
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"math"
 	"os"
@@ -38,7 +37,7 @@ func ReadInputFile(filename string) ([]string, error) {
 func ReadInput(r io.Reader) ([]string, error) {
 	result := []string{}
 
-	b, err := ioutil.ReadAll(r)
+	b, err := io.ReadAll(r)
 	if err != nil {
 		return nil, err
 	}

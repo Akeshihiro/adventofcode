@@ -3,7 +3,6 @@ package day1
 import (
 	"errors"
 	"io"
-	"io/ioutil"
 	"strconv"
 	"strings"
 )
@@ -18,7 +17,7 @@ func ReadInput(r io.Reader) ([]int, error) {
 		return nil, ErrNilInputData
 	}
 
-	bytes, err := ioutil.ReadAll(r)
+	bytes, err := io.ReadAll(r)
 	if err != nil {
 		return nil, err
 	}
