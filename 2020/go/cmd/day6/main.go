@@ -13,9 +13,14 @@ func main() {
 
 	groups := day6.ExtractGroups(lines)
 	sum := 0
-	for _, group := range groups {
-		answers := day6.UniqueAnswersOfGroup(group)
+	sumByAll := 0
+	for _, groupAnswers := range groups {
+		answers := day6.UniqueAnswersOfGroup(groupAnswers)
 		sum += len(answers)
+
+		answersByAll := day6.UniqueAnswersAnsweredByAllGroupMembers(groupAnswers)
+		sumByAll += len(answersByAll)
 	}
 	log.Printf("sum of answers: %v", sum)
+	log.Printf("sum of answers answered by all group members: %v", sumByAll)
 }

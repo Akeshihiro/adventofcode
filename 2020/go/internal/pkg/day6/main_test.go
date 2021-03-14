@@ -93,3 +93,18 @@ func TestUniqueAnswersOfGroup(t *testing.T) {
 		t.Fatalf("expected '%v', got '%v'", expected, result)
 	}
 }
+
+func TestUniqueAnswersAnswertByAllGroupMembers(t *testing.T) {
+	input := []string{
+		"a",
+		"az",
+		"ac",
+		"acz",
+	}
+	expected := "a"
+	result := day6.UniqueAnswersAnsweredByAllGroupMembers(input)
+
+	if result != expected {
+		t.Fatalf("expected '%v', got '%v'", expected, result)
+	}
+}

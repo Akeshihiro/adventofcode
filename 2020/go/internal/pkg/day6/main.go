@@ -76,3 +76,30 @@ func UniqueAnswersOfGroup(answers []string) string {
 
 	return strings.Join(ansList, "")
 }
+
+func UniqueAnswersAnsweredByAllGroupMembers(answers []string) string {
+	ans := map[rune]int{}
+
+	for _, answer := range answers {
+		for _, r := range answer {
+			_, ok := ans[r]
+			if !ok {
+				ans[r] = 0
+			}
+
+			ans[r]++
+		}
+	}
+
+	l := len(answers)
+	ansList := []string{}
+	for k, v := range ans {
+		if v == l {
+			ansList = append(ansList, string(k))
+		}
+	}
+
+	sort.Strings(ansList)
+
+	return strings.Join(ansList, "")
+}
